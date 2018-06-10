@@ -1,12 +1,12 @@
 version: 0.2
-env:
-  variables:
-    DOCKER_BUCKET: "download.docker.com"
-    DOCKER_VERSION: "17.09.0-ce"
-    DOCKER_CHANNEL: "stable"
-    DOCKER_SHA256: "a9e90a73c3cdfbf238f148e1ec0eaff5eb181f92f35bdd938fd7dab18e1c4647"
-    DIND_COMMIT: "3b5fac462d21ca164b3778647420016315289034"
-    DOCKER_COMPOSE_VERSION: "1.16.1"
+#env:
+#  variables:
+#    DOCKER_BUCKET: "download.docker.com"
+#    DOCKER_VERSION: "17.09.0-ce"
+#    DOCKER_CHANNEL: "stable"
+#    DOCKER_SHA256: "a9e90a73c3cdfbf238f148e1ec0eaff5eb181f92f35bdd938fd7dab18e1c4647"
+#    DIND_COMMIT: "3b5fac462d21ca164b3778647420016315289034"
+#    DOCKER_COMPOSE_VERSION: "1.16.1"
 
 phases:
   install:
@@ -30,7 +30,9 @@ phases:
       #- docker-compose version
   pre_build:
     commands:
+      - printenv
       - echo Logging in to Amazon ECR...
+      - aws --version
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
   build:
     commands:
@@ -45,6 +47,10 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"spring-tomcat","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+artifacts:
+    files: imagedefinitions.json
 #artifacts:
 #  files:
 #    - target/spring-mvc-showcase.war
