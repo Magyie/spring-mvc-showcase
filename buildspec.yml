@@ -12,22 +12,6 @@ phases:
   install:
     commands:
       - echo Entered the install phase...
-      #- set -ex
-      #- curl -fSL "https://${DOCKER_BUCKET}/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" -o docker.tgz
-      #- echo "${DOCKER_SHA256} *docker.tgz" | sha256sum -c -
-      #- tar --extract --file docker.tgz --strip-components 1  --directory /usr/local/bin/
-      #- rm docker.tgz
-      #- docker -v
-      # set up subuid/subgid so that "--userns-remap=default" works out-of-the-box
-      #- addgroup dockremap
-      #- useradd -g dockremap dockremap
-      #- echo 'dockremap:165536:65536' >> /etc/subuid
-      #- echo 'dockremap:165536:65536' >> /etc/subgid
-      #- wget "https://raw.githubusercontent.com/docker/docker/${DIND_COMMIT}/hack/dind" -O /usr/local/bin/dind
-      #- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Linux-x86_64 > /usr/local/bin/docker-compose
-      #- chmod +x /usr/local/bin/dind /usr/local/bin/docker-compose
-      #  # Ensure docker-compose works
-      #- docker-compose version
   pre_build:
     commands:
       - printenv
@@ -48,10 +32,6 @@ phases:
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"spring-tomcat","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"%s","imageUri":"%s"}]' $IMAGE_REPO_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
 artifacts:
     files: imagedefinitions.json
-#artifacts:
-#  files:
-#    - target/spring-mvc-showcase.war
-#  discard-paths: no
