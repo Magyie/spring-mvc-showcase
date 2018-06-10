@@ -19,10 +19,10 @@ phases:
       - rm docker.tgz
       - docker -v
         # set up subuid/subgid so that "--userns-remap=default" works out-of-the-box
-      - addgroup dockremap
-      - useradd -g dockremap dockremap
-      - echo 'dockremap:165536:65536' >> /etc/subuid
-      - echo 'dockremap:165536:65536' >> /etc/subgid
+      #- addgroup dockremap
+      #- useradd -g dockremap dockremap
+      #- echo 'dockremap:165536:65536' >> /etc/subuid
+      #- echo 'dockremap:165536:65536' >> /etc/subgid
       - wget "https://raw.githubusercontent.com/docker/docker/${DIND_COMMIT}/hack/dind" -O /usr/local/bin/dind
       - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Linux-x86_64 > /usr/local/bin/docker-compose
       - chmod +x /usr/local/bin/dind /usr/local/bin/docker-compose
