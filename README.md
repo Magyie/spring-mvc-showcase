@@ -40,12 +40,12 @@
 * Dockerfile
 * pom.xml
 
-** 部署方式
+## 部署方式
 1. Fork 仓库，登录您的 GitHub 账户，并按照关于创建个人访问令牌的 GitHub 文档中的说明进行操作。确保配置令牌以包含以下 GitHub范围：admin:repo_hook 和 repo。记住并复制令牌。
 
-2. 拷贝Cloudformation模板到公开可以访问的对象存储，已经拷贝到如下地址，点击 [这里](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?stackName=Spring-MVC&templateURL=https://s3.amazonaws.com/spring-mvc-showcase/ecs-refarch-continuous-deployment.yaml&param_LaunchType=Fargate) 即可直接启动模板（要求有AWS管理员权限启动）
+2. 拷贝Cloudformation模板到公开可以访问的对象存储，已经拷贝到S3，点击 [这里](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?stackName=Spring-MVC&templateURL=https://s3.amazonaws.com/spring-mvc-showcase/ecs-refarch-continuous-deployment.yaml&param_LaunchType=Fargate) 即可直接启动模板（要求有AWS管理员权限）
 
-3. 除了了个人令牌，其他值保留默认值。待运行一段时间之后，会出现如下界面的输出，ServiceUrl为访问网址，pipelineUrl为持续部署管道的管理界面。
+3. 除了Github个人令牌，其他值保留默认值。待运行一段时间之后，会出现如下界面的输出信息，ServiceUrl为应用部署网址，pipelineUrl为管道的状态界面。
 
 ![](aws-devops2.png)
 
