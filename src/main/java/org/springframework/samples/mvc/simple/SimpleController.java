@@ -8,7 +8,7 @@ public class SimpleController {
 
 	@GetMapping("/simple")
 	public String simple() {
-		return "Hello world! LYF";
+		return "Hello world!";
 	}
 
 }
